@@ -1,0 +1,603 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-dark: #07111f;
+  --white: #ffffff;
+  --glass: rgba(255, 255, 255, 0.12);
+  --glass-strong: rgba(255, 255, 255, 0.2);
+  --border: rgba(255, 255, 255, 0.26);
+  --blue: #0aa8ff;
+  --blue-dark: #062962;
+  --cyan: #19d9ff;
+  --green: #19d978;
+  --purple: #7756ff;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(0, 208, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 72%, rgba(130, 80, 255, 0.22), transparent 36%),
+    linear-gradient(145deg, #06101f, #08192e 55%, #050b16);
+  font-family: "Lexend", Arial, sans-serif;
+  color: var(--white);
+}
+
+canvas {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.title {
+  position: fixed;
+  top: 34px;
+  left: 42px;
+  z-index: 50;
+  max-width: 470px;
+  color: var(--white);
+  text-align: left;
+  pointer-events: none;
+}
+
+.badge{
+  display:inline-block;
+
+  padding:10px 17px;
+  border-radius:999px;
+
+  color:white;
+
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+
+  background:rgba(255,255,255,.12);
+
+  border:1px solid rgba(255,255,255,.28);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 12px 28px rgba(0,0,0,.25);
+}
+
+.title h1 {
+  margin: 16px 0 0;
+  font-size: clamp(40px, 5vw, 10px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  text-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.16),
+    0 16px 38px rgba(0, 0, 0, 0.55);
+}
+
+.title p {
+  margin: 14px 0 0;
+  max-width: 360px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  opacity: 0.92;
+}
+
+.levels-wrap {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.level-card {
+  position: fixed;
+  width: 260px;
+  padding: 22px;
+  border-radius: 30px;
+  color: white;
+  pointer-events: auto;
+  cursor: pointer;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.22), transparent 38%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.07));
+  border: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    opacity 0.28s ease;
+}
+
+.level-card::before {
+  content: "";
+  position: absolute;
+  inset: -80px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.26), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.level-card:hover {
+  transform: translateY(-10px) scale(1.045);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 34px 85px rgba(0, 0, 0, 0.58),
+    0 0 36px rgba(10, 168, 255, 0.22);
+}
+
+.level-card:hover::before {
+  opacity: 1;
+}
+
+.level-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.svg-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.svg-icon svg {
+  width: 42px;
+  height: 42px;
+  fill: white;
+}
+
+.level-svg {
+  width: 46px;
+  height: 46px;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+.level-svg path {
+  fill: none;
+  stroke: white;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.level-card:hover .level-svg {
+  transform: scale(1.14) rotate(8deg);
+}
+
+.status {
+  padding: 7px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.status.open {
+  background: rgba(255, 255, 255, 0.96);
+  color: #062962;
+}
+
+.status.lock {
+  background: rgba(255, 255, 255, 0.14);
+  color: #e5e5e5;
+}
+
+.level-card h2 {
+  position: relative;
+  z-index: 2;
+  margin: 24px 0 7px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.level-card p {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.level-card button {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin-top: 22px;
+  border: 0;
+  border-radius: 18px;
+  padding: 13px 16px;
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  transition: 0.25s ease;
+}
+
+.level-card button:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.level-card.unlocked {
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.22), transparent 38%),
+    linear-gradient(145deg, #062962, #064e75);
+  animation: pulse 1.9s infinite;
+}
+
+.level-card.locked {
+  opacity: 0.72;
+  filter: grayscale(0.28);
+}
+
+.level-card.locked button {
+  cursor: not-allowed;
+}
+
+.level-1 {
+  left: 7vw;
+  top: 34vh;
+}
+
+.level-2 {
+  right: 7vw;
+  top: 30vh;
+}
+
+.level-3 {
+  left: 50%;
+  bottom: 7vh;
+  transform: translateX(-50%);
+}
+
+.level-3:hover {
+  transform: translateX(-50%) translateY(-10px) scale(1.045);
+}
+
+.kid-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(3, 8, 20, 0.66);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+.kid-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.kid-modal-box {
+  position: relative;
+  width: min(430px, 100%);
+  padding: 36px 28px 30px;
+  border-radius: 36px;
+  text-align: center;
+  color: white;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.3), transparent 36%),
+    linear-gradient(145deg, var(--purple), var(--blue));
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 34px 95px rgba(0, 0, 0, 0.58);
+  transform: scale(0.84) translateY(20px);
+  transition: 0.28s ease;
+  animation: modalFloat 2.8s ease-in-out infinite;
+}
+
+.kid-modal.show .kid-modal-box {
+  transform: scale(1) translateY(0);
+}
+
+.kid-face {
+  width: 112px;
+  height: 112px;
+  margin: 0 auto 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.34), transparent 40%),
+    rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 0 30px rgba(255, 255, 255, 0.2),
+    0 16px 36px rgba(0, 0, 0, 0.26);
+  animation: sadBounce 1.6s infinite;
+}
+
+.sad-icon {
+  width: 62px;
+  height: 62px;
+  animation: shakeFace 2s infinite;
+}
+
+.sad-icon path {
+  fill: none;
+  stroke: white;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.kid-modal-box h2 {
+  margin: 0;
+  font-size: 29px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.kid-modal-box p {
+  margin: 15px auto 0;
+  max-width: 320px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.55;
+  opacity: 0.96;
+}
+
+.kid-modal-btn {
+  margin-top: 26px;
+  border: 0;
+  border-radius: 20px;
+  padding: 14px 22px;
+  color: #173050;
+  background: white;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+  transition: 0.25s ease;
+}
+
+.kid-modal-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+}
+
+.kid-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  color: white;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.kid-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.42),
+      0 0 0 0 rgba(255, 255, 255, 0.55);
+  }
+
+  70% {
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.42),
+      0 0 0 20px rgba(10, 168, 255, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.42),
+      0 0 0 0 rgba(10, 168, 255, 0);
+  }
+}
+
+@keyframes floatIcon {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes sadBounce {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+@keyframes shakeFace {
+  0%, 100% {
+    transform: rotate(-4deg);
+  }
+
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes modalFloat {
+  0%, 100% {
+    box-shadow: 0 34px 95px rgba(0, 0, 0, 0.58);
+  }
+
+  50% {
+    box-shadow: 0 44px 115px rgba(0, 168, 255, 0.45);
+  }
+}
+
+@media (max-width: 850px) {
+  body {
+    overflow-y: auto;
+  }
+
+  #app {
+    position: relative;
+    min-height: 100vh;
+    overflow-y: auto;
+    pointer-events: auto;
+  }
+
+  .title {
+    position: relative;
+    top: auto;
+    left: auto;
+    max-width: 100%;
+    padding: 30px 22px 10px;
+  }
+
+  .title h1 {
+    font-size: 38px;
+  }
+
+  .title p {
+    font-size: 17px;
+  }
+
+  .levels-wrap {
+    position: relative;
+    display: grid;
+    gap: 18px;
+    padding: 20px 20px 34px;
+  }
+
+  .level-card,
+  .level-1,
+  .level-2,
+  .level-3 {
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    transform: none;
+    width: 100%;
+  }
+
+  .level-card:hover,
+  .level-3:hover {
+    transform: scale(1.02);
+  }
+
+  .kid-modal-box {
+    padding: 32px 22px 26px;
+  }
+}
+
+.orbit-btn{
+  position:fixed;
+  right:28px;
+  bottom:28px;
+
+  z-index:1200;
+  pointer-events:auto;
+
+  width:62px;
+  height:62px;
+
+  display:grid;
+  place-items:center;
+
+  padding:0;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:22px;
+
+  cursor:pointer;
+
+  background:rgba(255,255,255,.12);
+
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 18px 38px rgba(0,0,0,.35);
+
+  transition:.3s ease;
+}
+
+.orbit-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.orbit-btn svg {
+  width: 30px;
+  height: 30px;
+}
+
+.orbit-btn path {
+  fill: none;
+  stroke: white;
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.orbit-btn.paused{
+background:rgba(255, 255, 255, 0.16);
+}
+
+.orbit-btn.paused path {
+  fill: white;
+  stroke: white;
+}
+
+@media (max-width: 850px) {
+  .orbit-btn {
+    right: 16px;
+    bottom: 16px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .orbit-btn svg {
+    width: 27px;
+    height: 27px;
+  }
+}

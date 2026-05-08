@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Level 2 - Detektiv Slogova</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="src/style.css">
+  <link rel="stylesheet" href="src/CSS/level2.css">
+
+  <style>
+    body {
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+
+    body.visible {
+      opacity: 1;
+    }
+
+    .finish-stars {
+      font-size: 42px;
+      margin-bottom: 12px;
+      animation: victoryPop 1.4s ease-in-out infinite;
+    }
+
+    @keyframes victoryPop {
+      0%, 100% {
+        transform: scale(1) rotate(-2deg);
+      }
+
+      50% {
+        transform: scale(1.12) rotate(2deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="level-page">
+    <section class="game-card">
+      <div class="game-top">
+        <button class="back-btn" type="button" onclick="goBack()">← Nazad</button>
+        <div class="progress" id="progressText">Runda 1 / 5</div>
+      </div>
+
+      <h1 class="game-title">Level 2</h1>
+
+      <p class="game-subtitle">
+        Detektiv slogova — spoji slogove da dobiješ cijelu riječ.
+      </p>
+
+      <div class="word-builder" id="gameArea">
+        <div class="target-svg" id="targetImage" aria-label="Zadatak">
+          🐱
+        </div>
+
+        <div class="slots-container">
+          <div class="syllable-box" id="firstPart">MA</div>
+          <div class="syllable-box empty" id="secondPart">?</div>
+        </div>
+      </div>
+
+      <div class="answers" id="options"></div>
+
+      <div class="message" id="message"></div>
+
+      <button class="next-btn" id="nextBtn" type="button" onclick="nextRound()">
+        Sljedeće pitanje →
+      </button>
+
+      <div class="finish-box" id="finishBox">
+        <div class="finish-inner">
+          <div class="finish-stars">🌟🎉🌟</div>
+
+          <h2>Bravo!</h2>
+
+          <p>
+            Završio/la si Level 2. Odličan posao!
+          </p>
+
+          <button class="next-btn show" type="button" onclick="finishLevel()">
+            Vrati se na planet
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="src/JS/level2.js"></script>
+</body>
+</html>

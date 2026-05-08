@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Level 3 - Planet memory</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="src/style.css">
+  <link rel="stylesheet" href="src/CSS/level3.css">
+
+  <style>
+    body {
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+
+    body.visible {
+      opacity: 1;
+    }
+
+    .finish-stars {
+      font-size: 42px;
+      margin-bottom: 12px;
+      animation: victoryPop 1.4s ease-in-out infinite;
+    }
+
+    @keyframes victoryPop {
+      0%, 100% {
+        transform: scale(1) rotate(-2deg);
+      }
+
+      50% {
+        transform: scale(1.12) rotate(2deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SETTINGS (FIXED TOP RIGHT - KAO RESET GUMB) -->
+  <div class="difficulty-menu" id="difficultyMenu">
+    <button
+      class="difficulty-toggle"
+      type="button"
+      onclick="toggleDifficultyMenu()"
+      aria-label="Postavke težine"
+    >
+      ⚙️
+    </button>
+
+    <div class="difficulty-options">
+      <button type="button" data-difficulty="easy" onclick="setDifficulty('easy')">
+        Lagano
+      </button>
+
+      <button type="button" data-difficulty="normal" onclick="setDifficulty('normal')">
+        Normalno
+      </button>
+
+      <button type="button" data-difficulty="hard" onclick="setDifficulty('hard')">
+        Teško
+      </button>
+    </div>
+  </div>
+
+  <main class="level-page">
+    <section class="game-card">
+
+      <div class="game-top">
+        <button class="back-btn" type="button" onclick="goBack()">← Nazad</button>
+        <div class="progress" id="progressText">Parovi 0 / 3</div>
+      </div>
+
+      <h1 class="game-title">Level 3</h1>
+
+      <p class="game-subtitle">
+        Zapamti iste parove.
+      </p>
+
+      <div class="memory-board" id="memoryBoard"></div>
+
+      <div class="message" id="message"></div>
+
+      <button class="help-btn" id="helpBtn" type="button" onclick="showHint()">
+        ✨ Mala pomoć
+      </button>
+
+      <!-- FINISH SCREEN -->
+      <div class="finish-box" id="finishBox">
+        <div class="finish-inner">
+          <div class="finish-stars">🌟🪐🌟</div>
+
+          <h2>Bravo!</h2>
+
+          <p>
+            Bravo! Pronašao/la si sve parove.
+          </p>
+
+          <button class="next-btn show" type="button" onclick="finishLevel()">
+            Vrati se na planet
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="src/JS/level3.js"></script>
+</body>
+</html>

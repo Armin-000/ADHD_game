@@ -1,0 +1,377 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Lexend", Arial, sans-serif;
+  color: white;
+}
+
+body.level-entering {
+  animation: levelPageEnter 0.9s ease forwards;
+}
+
+.level-page {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: 100vh;
+  padding: 18px;
+  display: grid;
+  place-items: center;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+
+.game-card {
+  width: min(760px, 100%);
+  max-height: calc(100vh - 36px);
+  padding: clamp(18px, 3vh, 30px);
+  border-radius: 34px;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  animation: cardEnter 0.9s ease forwards;
+}
+
+.game-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: clamp(14px, 2.5vh, 24px);
+}
+
+.back-btn,
+.sound-btn,
+.next-btn {
+  border: 0;
+  border-radius: 18px;
+  padding: 12px 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  color: white;
+  background: rgba(255,255,255,.16);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+  transition: .25s ease;
+}
+
+.back-btn:hover,
+.sound-btn:hover,
+.next-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.26);
+}
+
+.progress {
+  font-size: 14px;
+  font-weight: 800;
+  padding: 10px 15px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.16);
+  white-space: nowrap;
+}
+
+.game-title {
+  margin: 0;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.game-subtitle {
+  margin: 10px auto 0;
+  max-width: 520px;
+  font-size: clamp(15px, 2.2vh, 18px);
+  font-weight: 600;
+  line-height: 1.45;
+  opacity: .92;
+}
+
+.letter-box {
+  margin: clamp(18px, 3vh, 28px) auto clamp(12px, 2vh, 18px);
+  width: clamp(112px, 18vh, 150px);
+  height: clamp(112px, 18vh, 150px);
+  display: grid;
+  place-items: center;
+  border-radius: 34px;
+  font-size: clamp(66px, 10vh, 86px);
+  font-weight: 800;
+  color: #062962;
+  background: white;
+  box-shadow:
+    0 18px 38px rgba(0,0,0,.26),
+    0 0 34px rgba(25,217,255,.32);
+}
+
+.sound-btn {
+  margin-bottom: clamp(16px, 2.6vh, 26px);
+  background: linear-gradient(145deg, #0aa8ff, #7756ff);
+}
+
+.answers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 8px;
+}
+
+.answer-card {
+  min-height: clamp(104px, 16vh, 140px);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 26px;
+  background: rgba(255,255,255,.13);
+  color: white;
+  font-family: inherit;
+  cursor: pointer;
+  transition: .22s ease;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.answer-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255,255,255,.22);
+}
+
+.answer-card:disabled {
+  cursor: default;
+  opacity: .75;
+}
+
+.answer-card.correct {
+  background: rgba(25, 217, 120, .28);
+  border-color: rgba(112, 255, 176, .75);
+}
+
+.emoji {
+  display: block;
+  font-size: clamp(34px, 6vh, 44px);
+  margin-bottom: 8px;
+}
+
+.word {
+  display: block;
+  font-size: clamp(15px, 2.4vh, 18px);
+  font-weight: 800;
+}
+
+.message {
+  height: 48px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.message.good {
+  color: #70ffb0;
+}
+
+.message.try {
+  color: #ffffff;
+}
+
+.next-btn {
+  margin-top: 8px;
+  color: #173050;
+  background: white;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+}
+
+.next-btn.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* FINISH OVERLAY */
+
+.finish-box {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+
+.finish-box.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.finish-inner {
+  width: min(430px, 92%);
+  padding: 34px 28px 30px;
+  border-radius: 34px;
+  text-align: center;
+  color: white;
+  transform: scale(.86);
+  transition: transform .3s ease;
+}
+
+.finish-box.show .finish-inner {
+  transform: scale(1);
+}
+
+body.finished .game-card > :not(.finish-box) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.finish-box h2 {
+  margin: 0 0 12px;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.finish-box p {
+  margin: 0 auto 22px;
+  max-width: 330px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@keyframes levelPageEnter {
+  0% {
+    opacity: 0;
+    transform: scale(1.035);
+    filter: blur(8px);
+  }
+
+  65% {
+    opacity: 1;
+    filter: blur(2px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes cardEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(26px) scale(.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-height: 720px) {
+  .game-card {
+    padding: 16px;
+    border-radius: 28px;
+  }
+
+  .game-top {
+    margin-bottom: 12px;
+  }
+
+  .letter-box {
+    margin-top: 14px;
+    margin-bottom: 10px;
+  }
+
+  .sound-btn {
+    margin-bottom: 14px;
+  }
+
+  .message {
+    margin-top: 12px;
+    height: 42px;
+  }
+
+  .finish-box {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 700px) {
+  body {
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .level-page {
+    min-height: 100vh;
+    height: auto;
+    padding: 18px;
+  }
+
+  .game-card {
+    max-height: none;
+  }
+
+  .game-top {
+    flex-direction: column;
+  }
+
+  .answers {
+    grid-template-columns: 1fr;
+  }
+
+  .answer-card {
+    min-height: 96px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* =========================
+   RETURN ANIMATION (BACK)
+   ========================= */
+
+body.returning {
+  animation: returnWarp 0.9s ease forwards;
+}
+
+@keyframes returnWarp {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+
+  40% {
+    transform: scale(0.92);
+    filter: blur(4px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+    filter: blur(10px);
+  }
+}

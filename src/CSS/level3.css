@@ -539,3 +539,10 @@ body.returning {
     transition: none !important;
   }
 }
+
+.score-text {
+  margin: 8px auto 14px;
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 800;
+  color: #ffed4a;
+}

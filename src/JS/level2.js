@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadRound()
 })
 
+const RESULTS_KEY = 'childResults'
+let levelStartTime = Date.now()
+
 const questions = [
   {
     first: 'MA',
@@ -19,11 +22,11 @@ const questions = [
     word: 'KUĆA'
   },
   {
-    first: 'JA',
-    correct: 'BUKA',
-    options: ['BUKA', 'JA', 'CO'],
-    icon: '🍎',
-    word: 'JABUKA'
+    first: 'RI',
+    correct: 'BA',
+    options: ['TA', 'BA', 'CA'],
+    icon: '🐟',
+    word: 'RIBA'
   },
   {
     first: 'LO',
@@ -33,16 +36,40 @@ const questions = [
     word: 'LOPTA'
   },
   {
-    first: 'RI',
-    correct: 'BA',
-    options: ['TA', 'BA', 'CA'],
-    icon: '🐟',
-    word: 'RIBA'
+    first: 'JA',
+    correct: 'BUKA',
+    options: ['BUKA', 'JA', 'CO'],
+    icon: '🍎',
+    word: 'JABUKA'
+  },
+  {
+    first: 'BA',
+    correct: 'LON',
+    options: ['LON', 'NAN', 'TOR'],
+    icon: '🎈',
+    word: 'BALON'
+  },
+  {
+    first: 'AU',
+    correct: 'TO',
+    options: ['KO', 'TA', 'TO'],
+    icon: '🚗',
+    word: 'AUTO'
+  },
+  {
+    first: 'SLI',
+    correct: 'KOVNICA',
+    options: ['KOVNICA', 'KARICA', 'LOVNICA'],
+    icon: '📘',
+    word: 'SLIKOVNICA'
   }
 ]
 
 let currentRound = 0
 let correctAnswers = 0
+let wrongAnswers = 0
+let roundHadMistake = false
+let resultSaved = false
 
 const progressText = document.getElementById('progressText')
 const firstPart = document.getElementById('firstPart')
@@ -52,12 +79,15 @@ const message = document.getElementById('message')
 const nextBtn = document.getElementById('nextBtn')
 const optionsDiv = document.getElementById('options')
 const finishBox = document.getElementById('finishBox')
+const scoreText = document.getElementById('scoreText')
 
 function shuffleArray(array) {
   return [...array].sort(() => Math.random() - 0.5)
 }
 
 function loadRound() {
+  roundHadMistake = false
+
   const q = questions[currentRound]
 
   document.body.classList.remove('finished')
@@ -117,6 +147,11 @@ function checkAnswer(selected, btn) {
 
     nextBtn.classList.add('show')
   } else {
+    if (!roundHadMistake) {
+      wrongAnswers++
+      roundHadMistake = true
+    }
+
     btn.classList.add('wrong')
 
     message.textContent = 'Pokušaj ponovno! 🧐'
@@ -161,6 +196,16 @@ function showFinish() {
   message.className = 'message'
 
   progressText.textContent = 'Level 2 završen'
+
+  const finalScore = Math.max(0, questions.length - wrongAnswers)
+
+  saveLevelResult(2, finalScore, questions.length)
+
+  if (scoreText) {
+    scoreText.textContent =
+      `Osvojio/la si ${finalScore} / ${questions.length} bodova ⭐`
+  }
+
   finishBox.classList.add('show')
 
   playVictoryEffects()
@@ -199,6 +244,36 @@ function finishLevel() {
 function goBack() {
   speechSynthesis.cancel()
   window.location.href = 'index.html?returnWarp=1'
+}
+
+function saveLevelResult(level, score, maxScore, difficulty = 'standard') {
+  if (resultSaved) return
+
+  const duration = Math.floor((Date.now() - levelStartTime) / 1000)
+
+  const newResult = {
+    level,
+    score,
+    maxScore,
+    duration,
+    difficulty,
+    date: new Date().toLocaleString('hr-HR')
+  }
+
+  let results = []
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(RESULTS_KEY) || '[]')
+    results = Array.isArray(saved) ? saved : []
+  } catch (error) {
+    console.warn('Rezultati se nisu mogli pročitati:', error)
+    results = []
+  }
+
+  results.push(newResult)
+  localStorage.setItem(RESULTS_KEY, JSON.stringify(results))
+
+  resultSaved = true
 }
 
 function playVictoryEffects() {

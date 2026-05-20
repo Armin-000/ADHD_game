@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <script>
     if (new URLSearchParams(window.location.search).get("returnWarp") === "1") {
       document.documentElement.classList.add("return-warping-preload");
     }
   </script>
+
   <title>NeuroPlanet 3D</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -302,7 +304,22 @@
       updateLevelCards();
     }
 
+    function setupResultsShortcut() {
+      document.addEventListener("keydown", (event) => {
+        const openResults =
+          (event.ctrlKey || event.metaKey) &&
+          event.altKey &&
+          event.key.toLowerCase() === "r";
+
+        if (!openResults) return;
+
+        event.preventDefault();
+        window.location.href = "results.html";
+      });
+    }
+
     initLevels();
+    setupResultsShortcut();
   </script>
 
   <script type="module" src="src/main.js"></script>

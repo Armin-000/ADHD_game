@@ -5,6 +5,9 @@ if (fromWarp) {
   document.body.classList.add('level-entering')
 }
 
+const RESULTS_KEY = 'childResults'
+let levelStartTime = Date.now()
+
 const rounds = [
   {
     letter: 'P',
@@ -55,12 +58,45 @@ const rounds = [
       { word: 'Lopta', emoji: '⚽' },
       { word: 'Pas', emoji: '🐶' }
     ]
+  },
+  {
+    letter: 'K',
+    sound: 'ka',
+    correct: 'Kapa',
+    answers: [
+      { word: 'Kapa', emoji: '🧢' },
+      { word: 'Mačka', emoji: '🐱' },
+      { word: 'Riba', emoji: '🐟' }
+    ]
+  },
+  {
+    letter: 'B',
+    sound: 'be',
+    correct: 'Balon',
+    answers: [
+      { word: 'Auto', emoji: '🚗' },
+      { word: 'Balon', emoji: '🎈' },
+      { word: 'Lopta', emoji: '⚽' }
+    ]
+  },
+  {
+    letter: 'Z',
+    sound: 'ze',
+    correct: 'Zvono',
+    answers: [
+      { word: 'Sunce', emoji: '☀️' },
+      { word: 'Kuća', emoji: '🏠' },
+      { word: 'Zvono', emoji: '🔔' }
+    ]
   }
 ]
 
 let currentRound = 0
 let answered = false
 let correctAnswers = 0
+let wrongAnswers = 0
+let roundHadMistake = false
+let resultSaved = false
 let speakTimer = null
 
 const letterBox = document.getElementById('letterBox')
@@ -69,11 +105,13 @@ const message = document.getElementById('message')
 const nextBtn = document.getElementById('nextBtn')
 const progressText = document.getElementById('progressText')
 const finishBox = document.getElementById('finishBox')
+const scoreText = document.getElementById('scoreText')
 
 renderRound()
 
 function renderRound() {
   answered = false
+  roundHadMistake = false
 
   if (speakTimer) {
     clearTimeout(speakTimer)
@@ -148,6 +186,11 @@ function checkAnswer(word, selectedButton) {
       nextBtn.classList.add('show')
     }
   } else {
+    if (!roundHadMistake) {
+      wrongAnswers++
+      roundHadMistake = true
+    }
+
     message.textContent = `Pokušaj još jednom. Slušaj glas: ${round.letter}.`
     message.className = 'message try'
 
@@ -197,6 +240,16 @@ function showFinish() {
 
   document.body.classList.add('finished')
   progressText.textContent = 'Level 1 završen'
+
+  const finalScore = Math.max(0, rounds.length - wrongAnswers)
+
+  saveLevelResult(1, finalScore, rounds.length)
+
+  if (scoreText) {
+    scoreText.textContent =
+      `Osvojio/la si ${finalScore} / ${rounds.length} bodova ⭐`
+  }
+
   finishBox.classList.add('show')
   playVictoryEffects()
 }
@@ -226,6 +279,36 @@ function finishLevel() {
   }
 
   window.location.href = 'index.html?returnWarp=1'
+}
+
+function saveLevelResult(level, score, maxScore, difficulty = 'standard') {
+  if (resultSaved) return
+
+  const duration = Math.floor((Date.now() - levelStartTime) / 1000)
+
+  const newResult = {
+    level,
+    score,
+    maxScore,
+    duration,
+    difficulty,
+    date: new Date().toLocaleString('hr-HR')
+  }
+
+  let results = []
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(RESULTS_KEY) || '[]')
+    results = Array.isArray(saved) ? saved : []
+  } catch (error) {
+    console.warn('Rezultati se nisu mogli pročitati:', error)
+    results = []
+  }
+
+  results.push(newResult)
+  localStorage.setItem(RESULTS_KEY, JSON.stringify(results))
+
+  resultSaved = true
 }
 
 function playVictoryEffects() {

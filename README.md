@@ -1,100 +1,286 @@
-# NeuroPlanet 3D
 
-Interactive 3D educational game prototype designed to support children with ADHD through playful cognitive exercises.
+# NeuroPlanet 3D 🌍
+
+Interactive 3D educational experience designed to support children with ADHD through playful cognitive exercises, positive feedback and immersive interaction.
 
 ![NeuroPlanet Preview](./public/images/adhd.png)
 
-## Overview
+---
 
-NeuroPlanet 3D combines a 3D environment, progressive levels and simple game mechanics to support:
+# Overview
 
-- Letter and sound recognition  
-- Attention and reaction training  
-- Memory exercises  
-- Focus through guided interaction  
+NeuroPlanet 3D combines:
+- 🌌 Interactive 3D world
+- 🎮 Educational mini games
+- 🧠 ADHD-friendly UX principles
+- ✨ Visual and audio feedback systems
 
-## Levels
+The project focuses on helping children improve:
+- letter and sound recognition
+- attention and reaction
+- memory
+- focus and task persistence
+- motivation through play
 
-**Level 1**  
-Letters and Sounds
+---
 
-**Level 2**  
-Attention and Reaction
+# Levels
 
-**Level 3**  
-Memory
+## 🔤 Level 1 — Letters & Sounds
+Children listen to a sound and select the correct word that begins with that letter.
 
-Levels unlock through progression.
+Features:
+- speech synthesis
+- scoring system
+- mistake tracking
+- progression system
 
-## Features
+---
 
-- Interactive 3D planet with Three.js  
-- Pause and resume model controls  
-- ADHD-friendly interface design  
-- Animated level cards  
-- Locked-level feedback modal  
-- Responsive layout for desktop and mobile  
+## 🧩 Level 2 — Syllables & Words
+Children combine syllables to complete words.
 
-## Stack
+Features:
+- word construction
+- cognitive association
+- scoring and analytics
+- responsive UI
 
-- HTML  
-- CSS  
-- JavaScript  
-- Vite  
-- Three.js  
-- GLTFLoader  
-- OrbitControls  
+---
 
-## Run Project
+## 🪐 Level 3 — Planet Memory
+Memory card matching system with adjustable difficulty.
+
+Features:
+- memory training
+- ADHD-friendly pacing
+- difficulty system
+- hint system
+- timing analytics
+
+---
+
+# Analytics & Teacher Dashboard 📊
+
+NeuroPlanet 3D includes a hidden analytics dashboard designed for:
+- teachers
+- speech therapists
+- parents
+
+The dashboard displays:
+- level scores
+- completion time
+- difficulty level
+- accuracy
+- total progress
+
+---
+
+# Hidden Dashboard Access 🔐
+
+## macOS
+
+```txt
+COMMAND + OPTION + R
+````
+
+## Windows / Linux
+
+```txt
+CTRL + ALT + R
+```
+
+Opens:
+
+```txt
+results.html
+```
+
+---
+
+# Features ✨
+
+* 🌍 Interactive 3D planet using Three.js
+* 🎮 Progressive educational levels
+* 🔓 Level unlock system
+* 📊 Result analytics dashboard
+* ⭐ Score tracking system
+* ⏱️ Completion time tracking
+* 🧠 ADHD-friendly UX design
+* ✨ Glassmorphism UI
+* 🔊 Audio feedback system
+* 🎉 Victory effects & animations
+* 📱 Responsive desktop/mobile layout
+* ⚙️ Difficulty system
+* 💾 Local progress saving using localStorage
+
+---
+
+# ADHD-Friendly UX Principles 🧠
+
+The project follows several ADHD-oriented design principles:
+
+* minimal UI clutter
+* large interactive elements
+* short and focused tasks
+* immediate feedback
+* smooth animations
+* guided pacing
+* reduced cognitive overload
+
+---
+
+# Tech Stack ⚙️
+
+* HTML5
+* CSS3
+* JavaScript
+* Vite
+* Three.js
+* GLTFLoader
+* OrbitControls
+* Web Audio API
+* Speech Synthesis API
+
+---
+
+# Run Project 🚀
+
+Clone repository:
 
 ```bash
 git clone https://github.com/Armin-000/ADHD_game.git
+```
+
+Enter project:
+
+```bash
 cd ADHD_game
+```
+
+Install dependencies:
+
+```bash
 npm install
+```
+
+Run development server:
+
+```bash
 npm run dev
 ```
 
-Build:
+---
+
+# Build Project
 
 ```bash
 npm run build
 ```
 
-## Project Structure
+---
+
+# Project Structure 📁
 
 ```bash
-src/
-├── main.js
-├── style.css
+project/
 ├── index.html
+├── results.html
 ├── level1.html
 ├── level2.html
-└── level3.html
+├── level3.html
+│
+├── src/
+│   ├── main.js
+│   ├── style.css
+│   │
+│   ├── JS/
+│   │   ├── level1.js
+│   │   ├── level2.js
+│   │   ├── level3.js
+│   │   └── results.js
+│   │
+│   ├── CSS/
+│   │   ├── level1.css
+│   │   ├── level2.css
+│   │   ├── level3.css
+│   │   └── results.css
 ```
 
-## Goal
+---
 
-The project explores how interactive 3D environments can support:
+# Result Tracking System 📈
 
-- Focus  
-- Cognitive stimulation  
-- Motivation  
-- Task persistence  
+The application tracks:
 
-## Roadmap
+* score per level
+* wrong attempts
+* level duration
+* selected difficulty
+* total statistics
 
-- Progress saving  
-- Audio guidance  
-- Mini-games  
-- Reward system  
-- Parent dashboard  
+Results are stored locally using:
 
-## Author
+```js
+localStorage
+```
+
+---
+
+# Current Systems ✅
+
+* ✔️ 3D planet hub
+* ✔️ Warp transition system
+* ✔️ Level progression
+* ✔️ Analytics dashboard
+* ✔️ Score system
+* ✔️ Difficulty system
+* ✔️ Memory game
+* ✔️ Speech synthesis
+* ✔️ Sound effects
+* ✔️ Victory animations
+* ✔️ Responsive layouts
+
+---
+
+# Future Roadmap 🚀
+
+* 👤 Multiple child profiles
+* ☁️ Cloud save system
+* 📄 PDF reports for therapists
+* 📊 Progress charts
+* 🏆 Achievement system
+* 🎙️ Voice guidance
+* 🌌 More planets and levels
+* 🧠 Adaptive difficulty AI
+
+---
+
+# Goal 🎯
+
+The goal of NeuroPlanet 3D is to explore how:
+
+* interactive 3D environments
+* playful educational mechanics
+* ADHD-friendly UX design
+
+can improve:
+
+* focus
+* engagement
+* cognitive stimulation
+* motivation in children
+
+---
+
+# Author 👨‍💻
 
 Armin Lišić
 
-Student project and experimental prototype.
+Student project and experimental educational prototype.
 
-## License
+---
+
+# License 📄
 
 MIT License

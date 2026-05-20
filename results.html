@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Rezultati - NeuroPlanet 3D</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="src/style.css">
+  <link rel="stylesheet" href="src/CSS/results.css">
+</head>
+
+<body>
+  <main class="results-page">
+    <section class="results-card">
+      <div class="results-top">
+        <div>
+          <span class="results-badge">Teacher / Logoped Panel</span>
+          <h1>Rezultati djeteta</h1>
+          <p>
+            Pregled bodova, vremena i napretka po levelima.
+          </p>
+        </div>
+
+        <button class="back-btn" type="button" onclick="goBack()">
+          ← Povratak
+        </button>
+      </div>
+
+      <section class="summary-grid" aria-label="Sažetak rezultata">
+        <article class="summary-box">
+          <span class="summary-icon">⭐</span>
+          <div>
+            <h2 id="totalScore">0 / 0</h2>
+            <p>Ukupni bodovi</p>
+          </div>
+        </article>
+
+        <article class="summary-box">
+          <span class="summary-icon">⏱️</span>
+          <div>
+            <h2 id="totalTime">0s</h2>
+            <p>Ukupno vrijeme</p>
+          </div>
+        </article>
+
+        <article class="summary-box">
+          <span class="summary-icon">🎯</span>
+          <div>
+            <h2 id="accuracy">0%</h2>
+            <p>Točnost</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="results-section">
+        <div class="section-heading">
+          <h2>Lista rezultata</h2>
+
+          <button class="clear-btn" type="button" onclick="clearResults()">
+            Obriši rezultate
+          </button>
+        </div>
+
+        <div class="results-list" id="resultsList">
+          <!-- results.js ovdje puni rezultate -->
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="src/JS/results.js"></script>
+</body>
+</html>

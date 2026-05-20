@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
   startGame()
 })
 
+const RESULTS_KEY = 'childResults'
+let levelStartTime = Date.now()
+
 const basePairs = [
   { id: 'rocket', symbol: '🚀' },
   { id: 'star', symbol: '⭐' },
@@ -33,6 +36,8 @@ let flippedCards = []
 let matchedPairs = 0
 let lockBoard = false
 let hintUsed = false
+let wrongAttempts = 0
+let resultSaved = false
 
 let introTimer = null
 let previewStartTimer = null
@@ -44,6 +49,7 @@ const progressText = document.getElementById('progressText')
 const finishBox = document.getElementById('finishBox')
 const helpBtn = document.getElementById('helpBtn')
 const backBtn = document.querySelector('.back-btn')
+const scoreText = document.getElementById('scoreText')
 
 function startGame() {
   clearLevelTimers()
@@ -52,6 +58,9 @@ function startGame() {
   flippedCards = []
   lockBoard = true
   hintUsed = false
+  wrongAttempts = 0
+  resultSaved = false
+  levelStartTime = Date.now()
 
   document.body.classList.remove('finished')
   document.body.classList.add('memory-intro')
@@ -64,6 +73,10 @@ function startGame() {
 
   progressText.style.display = 'none'
   progressText.textContent = `Parovi 0 / ${basePairs.length}`
+
+  if (scoreText) {
+    scoreText.textContent = ''
+  }
 
   if (backBtn) {
     backBtn.style.display = 'none'
@@ -199,6 +212,7 @@ function checkMatch() {
   }
 
   lockBoard = true
+  wrongAttempts++
 
   first.button.classList.add('wrong')
   second.button.classList.add('wrong')
@@ -241,6 +255,8 @@ function showHint() {
   }, 1300)
 
   hintUsed = true
+  wrongAttempts++
+
   helpBtn.disabled = true
   helpBtn.style.display = 'none'
 
@@ -261,6 +277,16 @@ function showFinish() {
 
   document.body.classList.add('finished')
   progressText.textContent = 'Level 3 završen'
+
+  const finalScore = Math.max(0, basePairs.length - wrongAttempts)
+
+  saveLevelResult(3, finalScore, basePairs.length, difficulty)
+
+  if (scoreText) {
+    scoreText.textContent =
+      `Osvojio/la si ${finalScore} / ${basePairs.length} bodova ⭐`
+  }
+
   finishBox.classList.add('show')
 
   localStorage.setItem('level3Completed', 'true')
@@ -344,6 +370,36 @@ function clearLevelTimers() {
     clearTimeout(previewEndTimer)
     previewEndTimer = null
   }
+}
+
+function saveLevelResult(level, score, maxScore, difficulty = 'standard') {
+  if (resultSaved) return
+
+  const duration = Math.floor((Date.now() - levelStartTime) / 1000)
+
+  const newResult = {
+    level,
+    score,
+    maxScore,
+    duration,
+    difficulty,
+    date: new Date().toLocaleString('hr-HR')
+  }
+
+  let results = []
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(RESULTS_KEY) || '[]')
+    results = Array.isArray(saved) ? saved : []
+  } catch (error) {
+    console.warn('Rezultati se nisu mogli pročitati:', error)
+    results = []
+  }
+
+  results.push(newResult)
+  localStorage.setItem(RESULTS_KEY, JSON.stringify(results))
+
+  resultSaved = true
 }
 
 function shuffleArray(array) {

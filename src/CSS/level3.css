@@ -2,12 +2,29 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-dark: #07111f;
+  --white: #ffffff;
+  --glass: rgba(255, 255, 255, 0.12);
+  --glass-strong: rgba(255, 255, 255, 0.2);
+  --border: rgba(255, 255, 255, 0.26);
+  --blue: #0aa8ff;
+  --blue-dark: #062962;
+  --cyan: #19d9ff;
+  --green: #19d978;
+  --purple: #7756ff;
+}
+
 body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
   font-family: "Lexend", Arial, sans-serif;
-  color: var(--white);
+  color: white;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(0, 208, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 72%, rgba(130, 80, 255, 0.22), transparent 36%),
+    linear-gradient(145deg, #06101f, #08192e 55%, #050b16);
 }
 
 .level-page {

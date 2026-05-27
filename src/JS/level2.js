@@ -70,6 +70,8 @@ let correctAnswers = 0
 let wrongAnswers = 0
 let roundHadMistake = false
 let resultSaved = false
+let levelFinished = false
+let answerLocked = false
 
 const progressText = document.getElementById('progressText')
 const firstPart = document.getElementById('firstPart')
@@ -80,12 +82,15 @@ const nextBtn = document.getElementById('nextBtn')
 const optionsDiv = document.getElementById('options')
 const finishBox = document.getElementById('finishBox')
 const scoreText = document.getElementById('scoreText')
+const finishReturnBtn = document.getElementById('finishReturnBtn')
 
 function shuffleArray(array) {
   return [...array].sort(() => Math.random() - 0.5)
 }
 
 function loadRound() {
+  levelFinished = false
+  answerLocked = false
   roundHadMistake = false
 
   const q = questions[currentRound]
@@ -108,6 +113,11 @@ function loadRound() {
   nextBtn.classList.remove('show')
   finishBox.classList.remove('show')
 
+  if (finishReturnBtn) {
+  finishReturnBtn.disabled = true
+  finishReturnBtn.classList.remove('show')
+}
+
   optionsDiv.innerHTML = ''
 
   shuffleArray(q.options).forEach((option) => {
@@ -123,12 +133,17 @@ function loadRound() {
 
     optionsDiv.appendChild(btn)
   })
+
+  blurActiveElement()
 }
 
 function checkAnswer(selected, btn) {
+  if (answerLocked) return
+
   const q = questions[currentRound]
 
   if (selected === q.correct) {
+    answerLocked = true
     correctAnswers++
 
     secondPart.textContent = selected
@@ -146,21 +161,24 @@ function checkAnswer(selected, btn) {
     speakWord(q.word)
 
     nextBtn.classList.add('show')
-  } else {
-    if (!roundHadMistake) {
-      wrongAnswers++
-      roundHadMistake = true
-    }
+    blurActiveElement()
 
-    btn.classList.add('wrong')
-
-    message.textContent = 'Pokušaj ponovno! 🧐'
-    message.className = 'message try'
-
-    setTimeout(() => {
-      btn.classList.remove('wrong')
-    }, 500)
+    return
   }
+
+  if (!roundHadMistake) {
+    wrongAnswers++
+    roundHadMistake = true
+  }
+
+  btn.classList.add('wrong')
+
+  message.textContent = 'Pokušaj ponovno! 🧐'
+  message.className = 'message try'
+
+  setTimeout(() => {
+    btn.classList.remove('wrong')
+  }, 500)
 }
 
 function speakWord(word) {
@@ -178,16 +196,23 @@ function speakWord(word) {
 }
 
 function nextRound() {
+  if (!nextBtn.classList.contains('show')) return
+  if (levelFinished) return
+
   currentRound++
 
   if (currentRound < questions.length) {
     loadRound()
-  } else {
-    showFinish()
+    return
   }
+
+  showFinish()
 }
 
 function showFinish() {
+  levelFinished = true
+  answerLocked = true
+
   document.body.classList.add('finished')
 
   nextBtn.classList.remove('show')
@@ -208,10 +233,19 @@ function showFinish() {
 
   finishBox.classList.add('show')
 
+  if (finishReturnBtn) {
+  finishReturnBtn.disabled = false
+  finishReturnBtn.classList.add('show')
+}
+
+  blurActiveElement()
   playVictoryEffects()
 }
 
 function finishLevel() {
+  if (!levelFinished) return
+  if (!finishBox.classList.contains('show')) return
+
   speechSynthesis.cancel()
 
   const key = 'unlockedLevels'
@@ -274,6 +308,14 @@ function saveLevelResult(level, score, maxScore, difficulty = 'standard') {
   localStorage.setItem(RESULTS_KEY, JSON.stringify(results))
 
   resultSaved = true
+}
+
+function blurActiveElement() {
+  setTimeout(() => {
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur()
+    }
+  }, 0)
 }
 
 function playVictoryEffects() {

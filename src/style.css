@@ -771,7 +771,7 @@ html.return-warping-preload .reset-btn {
 /* MOBILE */
 @media (max-width: 850px) {
   .reset-btn {
-    top: 16px;
+    top: 29px;
     right: 16px;
     width: 40px;
     height: 40px;
@@ -780,5 +780,44 @@ html.return-warping-preload .reset-btn {
   .reset-icon {
     width: 16px;
     height: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .level-card {
+    width: 100%;
+    padding: 15px;
+    border-radius: 24px;
+  }
+
+  .svg-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .level-svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .level-card h2 {
+    margin: 16px 0 4px;
+    font-size: 21px;
+  }
+
+  .level-card p {
+    font-size: 13px;
+  }
+
+  .level-card button {
+    margin-top: 14px;
+    padding: 10px 12px;
+    font-size: 12px;
+    border-radius: 14px;
+  }
+
+  .status {
+    font-size: 11px;
+    padding: 6px 9px;
   }
 }

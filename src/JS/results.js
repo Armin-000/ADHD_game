@@ -156,3 +156,7 @@ function clearResults() {
   localStorage.removeItem(RESULTS_KEY)
   renderResults()
 }
+
+function exportResultsPDF() {
+  window.print()
+}

@@ -2,12 +2,29 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-dark: #07111f;
+  --white: #ffffff;
+  --glass: rgba(255, 255, 255, 0.12);
+  --glass-strong: rgba(255, 255, 255, 0.2);
+  --border: rgba(255, 255, 255, 0.26);
+  --blue: #0aa8ff;
+  --blue-dark: #062962;
+  --cyan: #19d9ff;
+  --green: #19d978;
+  --purple: #7756ff;
+}
+
 body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
   font-family: "Lexend", Arial, sans-serif;
-  color: var(--white);
+  color: white;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(0, 208, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 72%, rgba(130, 80, 255, 0.22), transparent 36%),
+    linear-gradient(145deg, #06101f, #08192e 55%, #050b16);
 }
 
 .level-page {
@@ -352,7 +369,20 @@ body.finished .game-card > :not(.finish-box) {
   }
 
   .game-top {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .back-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .progress {
+    padding: 10px 14px;
+    font-size: 13px;
   }
 
   .answers {
@@ -364,11 +394,11 @@ body.finished .game-card > :not(.finish-box) {
   }
 
   .syllable-box {
-    min-width: min(44vw, 180px);
-    height: auto;
-    min-height: 78px;
-    padding: 12px 14px;
-    font-size: clamp(22px, 7vw, 30px);
+    min-width: min(36vw, 140px);
+    min-height: 62px;
+    padding: 10px 12px;
+    font-size: clamp(18px, 5.5vw, 24px);
+    border-radius: 20px;
   }
 }
 
@@ -411,4 +441,16 @@ body.returning {
   font-size: clamp(22px, 4vw, 30px);
   font-weight: 800;
   color: #ffed4a;
+}
+
+.finish-return-btn {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.finish-box.show .finish-return-btn {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }

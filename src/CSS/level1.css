@@ -2,12 +2,29 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-dark: #07111f;
+  --white: #ffffff;
+  --glass: rgba(255, 255, 255, 0.12);
+  --glass-strong: rgba(255, 255, 255, 0.2);
+  --border: rgba(255, 255, 255, 0.26);
+  --blue: #0aa8ff;
+  --blue-dark: #062962;
+  --cyan: #19d9ff;
+  --green: #19d978;
+  --purple: #7756ff;
+}
+
 body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
   font-family: "Lexend", Arial, sans-serif;
   color: white;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(0, 208, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 72%, rgba(130, 80, 255, 0.22), transparent 36%),
+    linear-gradient(145deg, #06101f, #08192e 55%, #050b16);
 }
 
 body.level-entering {
@@ -92,6 +109,7 @@ body.level-entering {
   opacity: .92;
 }
 
+/* Tvoj postojeći stil za velike ekrane (računala) */
 .letter-box {
   margin: clamp(18px, 3vh, 28px) auto clamp(12px, 2vh, 18px);
   width: clamp(112px, 18vh, 150px);
@@ -106,6 +124,29 @@ body.level-entering {
   box-shadow:
     0 18px 38px rgba(0,0,0,.26),
     0 0 34px rgba(25,217,255,.32);
+}
+
+/* Stilovi koji se aktiviraju SAMO na ekranima užim od 480px (mobiteli) */
+@media (max-width: 480px) {
+  .letter-box {
+    /* Smanjen razmak */
+    margin: clamp(10px, 2vh, 18px) auto clamp(8px, 1.5vh, 12px);
+    
+    /* Smanjena širina i visina (maksimum spušten sa 150px na 90px) */
+    width: clamp(70px, 14vh, 90px);
+    height: clamp(70px, 14vh, 90px);
+    
+    /* Smanjen radijus zakrivljenosti da odgovara manjoj kutiji */
+    border-radius: 20px;
+    
+    /* Smanjeno slovo unutar kutije */
+    font-size: clamp(40px, 8vh, 55px);
+    
+    /* Lagano smanjena sjena jer je i kutija manja */
+    box-shadow:
+      0 10px 24px rgba(0,0,0,.2),
+      0 0 20px rgba(25,217,255,.25);
+  }
 }
 
 .sound-btn {
@@ -132,6 +173,26 @@ body.level-entering {
   display: grid;
   place-items: center;
   padding: 16px;
+}
+
+/* Dodaj ovo unutar već postojećeg @media bloka za mobitele */
+@media (max-width: 480px) {
+  
+  /* ... ovdje ti već stoji .letter-box od ranije ... */
+
+  .answer-card {
+    /* Smanjena minimalna visina (maksimum spušten sa 140px na 90px) */
+    min-height: clamp(65px, 11vh, 90px);
+    
+    /* Lagano smanjen radijus da vizualno odgovara manjoj kartici */
+    border-radius: 18px;
+    
+    /* Smanjen padding kako bi tekst imao više mjesta po širini */
+    padding: 10px 14px;
+    
+    /* OPIONALNO: Ako unutra imaš tekst, dobro je osigurati manji font na mobitelu */
+    font-size: clamp(14px, 2vh, 16px);
+  }
 }
 
 .answer-card:hover {
@@ -330,7 +391,20 @@ body.finished .game-card > :not(.finish-box) {
   }
 
   .game-top {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .back-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .progress {
+    padding: 10px 14px;
+    font-size: 13px;
   }
 
   .answers {
